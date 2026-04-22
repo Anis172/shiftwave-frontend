@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';  // ← ADD THIS!
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import API_BASE_URL from '../config/api';
+
 
 function Login({ onLoginSuccess, onSwitchToSignup }) {
     const { t } = useTranslation();
@@ -15,7 +17,7 @@ function Login({ onLoginSuccess, onSwitchToSignup }) {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:9090/api/auth/login', {
+            const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

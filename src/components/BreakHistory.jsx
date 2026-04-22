@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from './useTranslations.jsx';
+import API_BASE_URL from '../config/api';
 
 function BreakHistory() {
     const { t } = useTranslation();
@@ -10,7 +11,7 @@ function BreakHistory() {
     const fetchBreakHistory = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/break-requests/history', {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/history`, {  // ← CHANGE THIS LINE
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -28,6 +29,7 @@ function BreakHistory() {
         }
     }, []);
 
+    // ... rest of the file stays the same
     useEffect(() => {
         fetchBreakHistory();
     }, [fetchBreakHistory]);

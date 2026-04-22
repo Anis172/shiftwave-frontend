@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';
 import { getRoleKey } from '../utils/translationHelpers';
+import API_BASE_URL from '../config/api';
 
 function CreateShift({ onShiftCreated, onCancel, reuseData }) {
     const { t } = useTranslation();
@@ -35,13 +36,13 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
         try {
             const token = localStorage.getItem('token');
 
-            const usersResponse = await fetch('http://localhost:9090/api/users', {
+            const usersResponse = await fetch(`${API_BASE_URL}/api/users`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             const usersData = await usersResponse.json();
             setUsers(usersData);
 
-            const rolesResponse = await fetch('http://localhost:9090/api/roles', {
+            const rolesResponse = await fetch(`${API_BASE_URL}/api/roles`, {
                 headers: { 'Authorization': `Bearer ${token}` },
             });
             const rolesData = await rolesResponse.json();
@@ -96,7 +97,7 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch('http://localhost:9090/api/shifts', {
+            const response = await fetch(`${API_BASE_URL}/api/shifts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

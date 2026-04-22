@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';
 import { getRoleKey } from '../utils/translationHelpers';
+import API_BASE_URL from '../config/api';
 
 function EditShift({ shift, onShiftUpdated, onCancel }) {
     const { t } = useTranslation();
@@ -27,10 +28,10 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
             const token = localStorage.getItem('token');
 
             const [usersRes, rolesRes] = await Promise.all([
-                fetch('http://localhost:9090/api/users', {
+                fetch(`${API_BASE_URL}/api/users`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                fetch('http://localhost:9090/api/roles', {
+                fetch(`${API_BASE_URL}api/roles`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
             ]);
@@ -89,7 +90,7 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await fetch(`http://localhost:9090/api/shifts/${shift.id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/${shift.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

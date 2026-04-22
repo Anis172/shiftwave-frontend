@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';
 import { getRoleKey } from '../utils/translationHelpers';
+import API_BASE_URL from '../config/api';
 
 function CoverageRuleList() {
     const { t } = useTranslation();
@@ -19,7 +20,7 @@ function CoverageRuleList() {
     const fetchRules = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/coverage-rules', {
+            const response = await fetch(`${API_BASE_URL}/api/coverage-rules`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
             });
             if (response.ok) {
@@ -32,7 +33,7 @@ function CoverageRuleList() {
     const fetchRoles = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/roles', {
+            const response = await fetch(`${API_BASE_URL}/api/roles`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
             });
             if (response.ok) {
@@ -78,7 +79,7 @@ function CoverageRuleList() {
         // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:9090/api/coverage-rules', {
+            const response = await fetch(`${API_BASE_URL}/api/coverage-rules`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -122,7 +123,7 @@ function CoverageRuleList() {
         // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch(`http://localhost:9090/api/coverage-rules/${editingRule.id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/coverage-rules/${editingRule.id}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -152,7 +153,7 @@ function CoverageRuleList() {
         if (!window.confirm(t('confirmDeleteCoverageRule'))) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/coverage-rules/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/coverage-rules/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

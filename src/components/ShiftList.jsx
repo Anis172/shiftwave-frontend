@@ -7,6 +7,7 @@ import CoverageRuleList from './CoverageRuleList';
 import BreakHistory from "./BreakHistory.jsx";
 import { useTranslation } from './useTranslations.jsx';
 import { getStatusKey, getRoleKey } from '../utils/translationHelpers';
+import API_BASE_URL from '../config/api';
 
 function ShiftList() {
     const { t } = useTranslation();
@@ -23,7 +24,7 @@ function ShiftList() {
     const fetchShifts = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/shifts', {
+            const response = await fetch(`${API_BASE_URL}http://localhost:9090/api/shifts`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -41,14 +42,17 @@ function ShiftList() {
     }, []);
 
     useEffect(() => {
-        fetchShifts();
-    }, [fetchShifts]);
+        const loadShifts = async () => {
+            await fetchShifts();
+        };
 
+        loadShifts();
+    }, [fetchShifts]);
     const handleDelete = async (id) => {
         if (!window.confirm(t('confirmDelete') || 'Are you sure?')) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/shifts/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

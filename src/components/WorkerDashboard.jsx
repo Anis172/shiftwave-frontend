@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import BreakRequestForm from './BreakRequestForm';
 import { useTranslation } from './useTranslations.jsx';
 import { getRoleKey } from '../utils/translationHelpers';
+import API_BASE_URL from '../config/api';
+
 
 function WorkerDashboard() {
     const { t } = useTranslation();
@@ -29,7 +31,7 @@ function WorkerDashboard() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/shifts/worker/${user.id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/worker/${user.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -77,7 +79,7 @@ function WorkerDashboard() {
     const confirmClockIn = async (shiftId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/shifts/${shiftId}/clock-in`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/${shiftId}/clock-in`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -120,7 +122,7 @@ function WorkerDashboard() {
     const confirmClockOut = async (shiftId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/shifts/${shiftId}/clock-out`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/${shiftId}/clock-out`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,

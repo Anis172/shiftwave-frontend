@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from './useTranslations.jsx';
+import API_BASE_URL from '../config/api';
 
 function ManagerActiveBreaks() {
     const { t } = useTranslation();
@@ -9,7 +10,7 @@ function ManagerActiveBreaks() {
     const fetchActiveBreaks = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/break-requests/status/ACTIVE', {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/status/ACTIVE`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

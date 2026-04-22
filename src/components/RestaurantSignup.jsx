@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
-
+import API_BASE_URL from '../config/api';
 function RestaurantSignup({ onBackToLogin }) {
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
@@ -80,7 +80,7 @@ function RestaurantSignup({ onBackToLogin }) {
 
         // ✅ BACKEND CALL
         try {
-            const response = await fetch('http://localhost:9090/api/public/register-restaurant', {
+            const response = await fetch(`${API_BASE_URL}/api/public/register-restaurant`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

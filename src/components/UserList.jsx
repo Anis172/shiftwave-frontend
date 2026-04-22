@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import { getErrorKey } from '../utils/errorKeyMap';
 import { getRoleKey } from '../utils/translationHelpers';
-
+import API_BASE_URL from '../config/api';
 function UserList() {
     const { t } = useTranslation();
     const [users, setUsers] = useState([]);
@@ -19,20 +19,29 @@ function UserList() {
     });
 
     useEffect(() => {
-        const userString = localStorage.getItem('user');
-        if (userString && userString !== 'undefined') {
+        const loadUser = async () => {
+            const userString = localStorage.getItem('user');
+
+            if (!userString || userString === 'undefined') {
+                return;
+            }
+
             try {
-                setCurrentUser(JSON.parse(userString));
+                const user = JSON.parse(userString);
+                setCurrentUser(user);
             } catch (err) {
                 console.error('Failed to parse user:', err);
+                localStorage.removeItem('user'); // Clean up invalid data
             }
-        }
+        };
+
+        loadUser();
     }, []);
 
     const fetchUsers = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/users', {
+            const response = await fetch(`${API_BASE_URL}/api/users`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
             });
             if (response.ok) {
@@ -45,7 +54,7 @@ function UserList() {
     const fetchRoles = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/roles', {
+            const response = await fetch(`${API_BASE_URL}/api/roles`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
             });
             if (response.ok) {
@@ -106,7 +115,7 @@ function UserList() {
         // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:9090/api/users', {
+            const response = await fetch(`${API_BASE_URL}/api/users`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...formData, roleId: parseInt(formData.roleId) })
@@ -165,7 +174,7 @@ function UserList() {
         if (!formData.password) delete payload.password;
 
         try {
-            const response = await fetch(`http://localhost:9090/api/users/${editingUser.id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/users/${editingUser.id}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -192,7 +201,7 @@ function UserList() {
         if (!window.confirm(t('confirmDeleteWorker'))) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/users/${id}`, {
+            const response = await fetch(`${API_BASE_URL}/api/users/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -215,7 +224,7 @@ function UserList() {
     const handleToggleActive = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/users/${id}/toggle-active`, {
+            const response = await fetch(`${API_BASE_URL}/api/users/${id}/toggle-active`, {
                 method: 'PATCH',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

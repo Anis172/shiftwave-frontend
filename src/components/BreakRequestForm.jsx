@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from './useTranslations.jsx';
-
+import API_BASE_URL from '../config/api';
 function BreakRequestForm({ workerId }) {
     const { t } = useTranslation();
     const [shifts, setShifts] = useState([]);
@@ -15,7 +15,7 @@ function BreakRequestForm({ workerId }) {
     const fetchActiveShifts = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/shifts/worker/${workerId}`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts/worker/${workerId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ function BreakRequestForm({ workerId }) {
     const fetchMyActiveBreaks = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/break-requests/worker/${workerId}`, {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/worker/${workerId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -95,7 +95,7 @@ function BreakRequestForm({ workerId }) {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:9090/api/break-requests', {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -131,7 +131,7 @@ function BreakRequestForm({ workerId }) {
     const handleStartBreak = async (breakId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/break-requests/${breakId}/start`, {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/${breakId}/start`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -152,7 +152,7 @@ function BreakRequestForm({ workerId }) {
     const handleCompleteBreak = async (breakId) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/break-requests/${breakId}/complete`, {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/${breakId}/complete`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -177,7 +177,7 @@ function BreakRequestForm({ workerId }) {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:9090/api/break-requests/${breakId}`, {
+            const response = await fetch(`${API_BASE_URL}/api/break-requests/${breakId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
