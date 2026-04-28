@@ -111,7 +111,8 @@ function WorkerDashboard() {
 
             if (response.ok) {
                 console.log('✅ Clock in successful!');
-                fetchShifts();
+              /*  fetchShifts();*/
+                window.location.reload();
             } else {
                 console.error('❌ Clock in failed:', data);
                 alert('Clock in failed: ' + (data.error || JSON.stringify(data)));
@@ -169,7 +170,7 @@ function WorkerDashboard() {
 
             if (response.ok) {
                 console.log('✅ Clock out successful!');
-                fetchShifts();
+                window.location.reload();
             } else {
                 console.error('❌ Clock out failed:', data);
                 alert('Clock out failed: ' + (data.error || JSON.stringify(data)));
