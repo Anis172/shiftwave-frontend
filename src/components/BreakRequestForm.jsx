@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from './useTranslations.jsx';
 import API_BASE_URL from '../config/api';
+
 function BreakRequestForm({ workerId }) {
     const { t } = useTranslation();
     const [shifts, setShifts] = useState([]);
@@ -234,55 +235,64 @@ function BreakRequestForm({ workerId }) {
                 <div className="bg-primary-500/10 backdrop-blur-sm rounded-xl p-4 mb-6 border border-primary-500/20">
                     <h4 className="text-white font-semibold mb-3">{t('yourCurrentBreaks')}</h4>
                     <div className="space-y-3">
-                        {activeBreaks.map(breakReq => (
-                            <div key={breakReq.id} className="bg-white/5 rounded-lg p-3 border border-white/10 flex items-center justify-between">
-                                <div className="flex items-center gap-3 flex-1">
-                                    <span className="text-2xl">{getBreakIcon(breakReq.breakType)}</span>
-                                    <div>
-                                        <div className="text-white font-medium">{breakReq.breakType} {t('break')}</div>
-                                        <div className="text-glow-violet text-sm mt-1">
-                                            {breakReq.status === 'PENDING' && <>⏳ {t('waitingApproval')}</>}
-                                            {breakReq.status === 'ACTIVE' && <>⏰ {t('endsAt')} {formatTime(breakReq.endTime)}</>}
-                                            {breakReq.status === 'APPROVED' && <>✅ {t('approvedReadyStart')}</>}
+                        {activeBreaks.map(breakReq => {
+                            // 🔍 DEBUG CONSOLE LOGS
+                            console.log('🔍 Break Debug:');
+                            console.log('   ID:', breakReq.id);
+                            console.log('   Status:', breakReq.status);
+                            console.log('   Type of status:', typeof breakReq.status);
+                            console.log('   Full break object:', breakReq);
+
+                            return (
+                                <div key={breakReq.id} className="bg-white/5 rounded-lg p-3 border border-white/10 flex items-center justify-between">
+                                    <div className="flex items-center gap-3 flex-1">
+                                        <span className="text-2xl">{getBreakIcon(breakReq.breakType)}</span>
+                                        <div>
+                                            <div className="text-white font-medium">{breakReq.breakType} {t('break')}</div>
+                                            <div className="text-glow-violet text-sm mt-1">
+                                                {breakReq.status === 'PENDING' && <>⏳ {t('waitingApproval')}</>}
+                                                {breakReq.status === 'ACTIVE' && <>⏰ {t('endsAt')} {formatTime(breakReq.endTime)}</>}
+                                                {breakReq.status === 'APPROVED' && <>✅ {t('approvedReadyStart')}</>}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex gap-2">
-                                    {breakReq.status === 'PENDING' && (
-                                        <button
-                                            onClick={() => handleDeleteBreak(breakReq.id)}
-                                            className="px-3 py-1.5 bg-danger/20 text-danger border border-danger/30 rounded-lg text-sm font-medium hover:bg-danger/30 transition-all duration-150"
-                                        >
-                                            🗑️
-                                        </button>
-                                    )}
-                                    {breakReq.status === 'APPROVED' && (
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={() => handleStartBreak(breakReq.id)}
-                                                className="px-4 py-2 bg-gradient-to-r from-success to-success/80 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-success/50 transition-all duration-200"
-                                            >
-                                                ▶️ {t('startButton')}
-                                            </button>
+                                    <div className="flex gap-2">
+                                        {breakReq.status === 'PENDING' && (
                                             <button
                                                 onClick={() => handleDeleteBreak(breakReq.id)}
                                                 className="px-3 py-1.5 bg-danger/20 text-danger border border-danger/30 rounded-lg text-sm font-medium hover:bg-danger/30 transition-all duration-150"
                                             >
                                                 🗑️
                                             </button>
-                                        </div>
-                                    )}
-                                    {breakReq.status === 'ACTIVE' && (
-                                        <button
-                                            onClick={() => handleCompleteBreak(breakReq.id)}
-                                            className="px-4 py-2 bg-gradient-to-r from-warning to-warning/80 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-warning/50 transition-all duration-200"
-                                        >
-                                            ✅ {t('complete')}
-                                        </button>
-                                    )}
+                                        )}
+                                        {breakReq.status === 'APPROVED' && (
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => handleStartBreak(breakReq.id)}
+                                                    className="px-4 py-2 bg-gradient-to-r from-success to-success/80 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-success/50 transition-all duration-200"
+                                                >
+                                                    ▶️ {t('startButton')}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteBreak(breakReq.id)}
+                                                    className="px-3 py-1.5 bg-danger/20 text-danger border border-danger/30 rounded-lg text-sm font-medium hover:bg-danger/30 transition-all duration-150"
+                                                >
+                                                    🗑️
+                                                </button>
+                                            </div>
+                                        )}
+                                        {breakReq.status === 'ACTIVE' && (
+                                            <button
+                                                onClick={() => handleCompleteBreak(breakReq.id)}
+                                                className="px-4 py-2 bg-gradient-to-r from-warning to-warning/80 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-warning/50 transition-all duration-200"
+                                            >
+                                                ✅ {t('complete')}
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             )}
@@ -301,6 +311,7 @@ function BreakRequestForm({ workerId }) {
                     </div>
                 </div>
             )}
+
             {activeBreaks.length > 0 && (
                 <div className="px-4 py-3 bg-warning/20 border border-warning/50 text-white rounded-xl mb-4">
                     <div className="flex items-center gap-2">
