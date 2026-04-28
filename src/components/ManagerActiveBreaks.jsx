@@ -19,15 +19,7 @@ function ManagerActiveBreaks() {
 
             if (response.ok) {
                 const data = await response.json();
-
-                const now = new Date();
-                const stillActive = data.filter(breakReq => {
-                    if (!breakReq.endTime) return true;
-                    const endTime = new Date(breakReq.endTime);
-                    return endTime > now;
-                });
-
-                setActiveBreaks(stillActive);
+                setActiveBreaks(data);  // ← SIMPLIFIED!
             }
         } catch (error) {
             console.error('Error fetching active breaks:', error);
