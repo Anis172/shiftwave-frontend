@@ -94,7 +94,17 @@ function WorkerDashboard() {
             console.log('Response status:', response.status);
             console.log('Response OK:', response.ok);
 
-            const data = await response.json();
+            // Get response as text first
+            const text = await response.text();
+            console.log('Response text:', text);
+
+            if (!text) {
+                alert('Backend returned empty response!');
+                return;
+            }
+
+            // Try to parse as JSON
+            const data = JSON.parse(text);
             console.log('Response data:', data);
 
             if (response.ok) {
@@ -104,12 +114,12 @@ function WorkerDashboard() {
                 console.error('❌ Clock in failed:', data);
                 alert('Clock in failed: ' + (data.error || JSON.stringify(data)));
             }
+
         } catch (error) {
-            console.error('❌ Error clocking in:', error);
+            console.error('❌ Error:', error);
             alert('Error: ' + error.message);
         }
     };
-
     const calculateTimeRemaining = (scheduledEnd) => {
         const now = new Date();
         const end = new Date(scheduledEnd);
