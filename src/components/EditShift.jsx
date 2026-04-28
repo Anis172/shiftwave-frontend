@@ -6,13 +6,26 @@ import API_BASE_URL from '../config/api';
 
 function EditShift({ shift, onShiftUpdated, onCancel }) {
     const { t } = useTranslation();
+
+    // Convert UTC timestamps to local datetime-local format
+    const formatForInput = (isoString) => {
+        const date = new Date(isoString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     const [formData, setFormData] = useState({
         workerId: shift.worker.id,
         roleId: shift.role.id,
-        scheduledStart: shift.scheduledStart,
-        scheduledEnd: shift.scheduledEnd,
+        scheduledStart: formatForInput(shift.scheduledStart),
+        scheduledEnd: formatForInput(shift.scheduledEnd),
         status: shift.status
     });
+
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -31,7 +44,7 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
                 fetch(`${API_BASE_URL}/api/users`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                fetch(`${API_BASE_URL}api/roles`, {
+                fetch(`${API_BASE_URL}/api/roles`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
             ]);
@@ -97,10 +110,10 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    workerId: formData.workerId,
-                    roleId: formData.roleId,
-                    scheduledStart: formData.scheduledStart,
-                    scheduledEnd: formData.scheduledEnd,
+                    workerId: parseInt(formData.workerId),
+                    roleId: parseInt(formData.roleId),
+                    scheduledStart: new Date(formData.scheduledStart).toISOString(),
+                    scheduledEnd: new Date(formData.scheduledEnd).toISOString(),
                     status: formData.status
                 })
             });
