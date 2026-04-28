@@ -24,7 +24,7 @@ function ShiftList() {
     const fetchShifts = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}http://localhost:9090/api/shifts`, {
+            const response = await fetch(`${API_BASE_URL}/api/shifts`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

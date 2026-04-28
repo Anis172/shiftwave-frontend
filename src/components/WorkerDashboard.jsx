@@ -79,6 +79,10 @@ function WorkerDashboard() {
     const confirmClockIn = async (shiftId) => {
         try {
             const token = localStorage.getItem('token');
+            console.log('🔍 Attempting clock in...');
+            console.log('Shift ID:', shiftId);
+            console.log('URL:', `${API_BASE_URL}/api/shifts/${shiftId}/clock-in`);
+
             const response = await fetch(`${API_BASE_URL}/api/shifts/${shiftId}/clock-in`, {
                 method: 'PATCH',
                 headers: {
@@ -87,11 +91,22 @@ function WorkerDashboard() {
                 }
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response OK:', response.ok);
+
+            const data = await response.json();
+            console.log('Response data:', data);
+
             if (response.ok) {
+                console.log('✅ Clock in successful!');
                 fetchShifts();
+            } else {
+                console.error('❌ Clock in failed:', data);
+                alert('Clock in failed: ' + (data.error || JSON.stringify(data)));
             }
         } catch (error) {
-            console.error('Error clocking in:', error);
+            console.error('❌ Error clocking in:', error);
+            alert('Error: ' + error.message);
         }
     };
 
@@ -122,6 +137,10 @@ function WorkerDashboard() {
     const confirmClockOut = async (shiftId) => {
         try {
             const token = localStorage.getItem('token');
+            console.log('🔍 Attempting clock out...');
+            console.log('Shift ID:', shiftId);
+            console.log('URL:', `${API_BASE_URL}/api/shifts/${shiftId}/clock-out`);
+
             const response = await fetch(`${API_BASE_URL}/api/shifts/${shiftId}/clock-out`, {
                 method: 'PATCH',
                 headers: {
@@ -130,11 +149,22 @@ function WorkerDashboard() {
                 }
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response OK:', response.ok);
+
+            const data = await response.json();
+            console.log('Response data:', data);
+
             if (response.ok) {
+                console.log('✅ Clock out successful!');
                 fetchShifts();
+            } else {
+                console.error('❌ Clock out failed:', data);
+                alert('Clock out failed: ' + (data.error || JSON.stringify(data)));
             }
         } catch (error) {
-            console.error('Error clocking out:', error);
+            console.error('❌ Error clocking out:', error);
+            alert('Error: ' + error.message);
         }
     };
 
