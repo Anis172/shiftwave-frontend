@@ -4,6 +4,8 @@ import { useTranslation } from './useTranslations.jsx';
 import { getRoleKey } from '../utils/translationHelpers';
 import API_BASE_URL from '../config/api';
 
+console.log("worker dashboard");
+
 
 function WorkerDashboard() {
     const { t } = useTranslation();
