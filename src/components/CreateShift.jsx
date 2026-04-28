@@ -22,11 +22,22 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
         fetchUsersAndRoles();
 
         if (reuseData) {
+            // Convert UTC timestamps back to local datetime-local format
+            const formatForInput = (isoString) => {
+                const date = new Date(isoString);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${year}-${month}-${day}T${hours}:${minutes}`;
+            };
+
             setFormData({
                 workerId: reuseData.worker.id,
                 roleId: reuseData.role.id,
-                scheduledStart: reuseData.scheduledStart,
-                scheduledEnd: reuseData.scheduledEnd,
+                scheduledStart: formatForInput(reuseData.scheduledStart),
+                scheduledEnd: formatForInput(reuseData.scheduledEnd),
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,8 +117,8 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
                 body: JSON.stringify({
                     workerId: parseInt(formData.workerId),
                     roleId: parseInt(formData.roleId),
-                    scheduledStart: formData.scheduledStart,
-                    scheduledEnd: formData.scheduledEnd,
+                    scheduledStart: new Date(formData.scheduledStart).toISOString(),
+                    scheduledEnd: new Date(formData.scheduledEnd).toISOString(),
                     status: 'SCHEDULED',
                 }),
             });
