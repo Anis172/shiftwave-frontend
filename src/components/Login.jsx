@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from './useTranslations.jsx';
-import { getErrorKey } from '../utils/errorKeyMap';  // ← ADD THIS!
+import { getErrorKey } from '../utils/errorKeyMap';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
 import API_BASE_URL from '../config/api';
 

@@ -7,7 +7,7 @@ function BreakHistory() {
     const [breaks, setBreaks] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // 1. Stable Fetcher to satisfy the linter
+
     const fetchBreakHistory = useCallback(async () => {
         try {
             const token = localStorage.getItem('token');
@@ -29,12 +29,12 @@ function BreakHistory() {
         }
     }, []);
 
-    // ... rest of the file stays the same
+
     useEffect(() => {
         fetchBreakHistory();
     }, [fetchBreakHistory]);
 
-    // 2. Formatting Helpers
+
     const formatDateTime = (dateTime) => {
         if (!dateTime) return '';
         return new Date(dateTime).toLocaleString('en-US', {
@@ -85,7 +85,7 @@ function BreakHistory() {
         }
     };
 
-    // LOADING STATE
+
     if (loading) {
         return (
             <div className="bg-white/10 backdrop-blur-xl rounded-[2rem] border border-white/20 p-12 shadow-2xl flex flex-col items-center justify-center gap-4 animate-pulse">
@@ -95,7 +95,7 @@ function BreakHistory() {
         );
     }
 
-    // EMPTY STATE
+
     if (breaks.length === 0) {
         return (
             <div className="bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 p-20 text-center shadow-2xl">

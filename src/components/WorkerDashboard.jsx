@@ -300,7 +300,7 @@ function WorkerDashboard() {
                 </div>
             </div>
 
-            {/* ✅ Early Clock-IN Modal - MOBILE OPTIMIZED */}
+            {/*  Early Clock-IN Modal - MOBILE OPTIMIZED */}
             {showEarlyClockInModal && selectedShift && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6 max-w-sm w-full shadow-2xl">
@@ -350,7 +350,7 @@ function WorkerDashboard() {
                 </div>
             )}
 
-            {/* ✅ Early Clock-OUT Modal - MOBILE OPTIMIZED */}
+            {/*  Early Clock-OUT Modal - MOBILE OPTIMIZED */}
             {showEarlyClockOutModal && selectedShift && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-4 sm:p-6 max-w-sm w-full shadow-2xl">

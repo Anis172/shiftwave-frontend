@@ -64,7 +64,6 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
         setLoading(true);
         setError('');
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.workerId) {
             setError(t('workerRequired'));
             setLoading(false);
@@ -89,7 +88,6 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
             return;
         }
 
-        // Check end time is after start time
         const start = new Date(formData.scheduledStart);
         const end = new Date(formData.scheduledEnd);
 
@@ -99,7 +97,6 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
             return;
         }
 
-        // ✅ BACKEND CALL
         try {
             const token = localStorage.getItem('token');
 
@@ -118,7 +115,6 @@ function EditShift({ shift, onShiftUpdated, onCancel }) {
                 })
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);

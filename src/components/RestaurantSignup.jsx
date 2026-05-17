@@ -22,37 +22,31 @@ function RestaurantSignup({ onBackToLogin }) {
         setError('');
         setLoading(true);
 
-        // ✅ FRONTEND VALIDATION (translated!)
 
-        // Restaurant name
         if (!formData.restaurantName || formData.restaurantName.trim().length < 2) {
             setError(t('restaurantNameLength'));
             setLoading(false);
             return;
         }
 
-        // Address
         if (!formData.address || formData.address.trim().length < 5) {
             setError(t('addressLength'));
             setLoading(false);
             return;
         }
 
-        // Phone
         if (!formData.phone) {
             setError(t('phoneRequired'));
             setLoading(false);
             return;
         }
 
-        // Owner name
         if (!formData.ownerName || formData.ownerName.trim().length < 2) {
             setError(t('nameTooShort'));
             setLoading(false);
             return;
         }
 
-        // Email
         if (!formData.ownerEmail) {
             setError(t('emailRequired'));
             setLoading(false);
@@ -65,7 +59,6 @@ function RestaurantSignup({ onBackToLogin }) {
             return;
         }
 
-        // Password
         if (!formData.password) {
             setError(t('passwordRequired'));
             setLoading(false);
@@ -78,7 +71,6 @@ function RestaurantSignup({ onBackToLogin }) {
             return;
         }
 
-        // ✅ BACKEND CALL
         try {
             const response = await fetch(`${API_BASE_URL}/api/public/register-restaurant`, {
                 method: 'POST',
@@ -88,7 +80,6 @@ function RestaurantSignup({ onBackToLogin }) {
                 body: JSON.stringify(formData),
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
@@ -97,7 +88,6 @@ function RestaurantSignup({ onBackToLogin }) {
                 return;
             }
 
-            // ✅ SUCCESS!
             setSuccess(true);
             setTimeout(() => {
                 onBackToLogin();

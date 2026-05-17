@@ -65,7 +65,6 @@ function CoverageRuleList() {
         e.preventDefault();
         setError('');
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.roleId) {
             setError(t('roleRequired'));
             return;
@@ -76,7 +75,6 @@ function CoverageRuleList() {
             return;
         }
 
-        // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${API_BASE_URL}/api/coverage-rules`, {
@@ -109,7 +107,6 @@ function CoverageRuleList() {
         e.preventDefault();
         setError('');
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.roleId) {
             setError(t('roleRequired'));
             return;
@@ -120,7 +117,6 @@ function CoverageRuleList() {
             return;
         }
 
-        // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${API_BASE_URL}/api/coverage-rules/${editingRule.id}`, {
@@ -132,7 +128,6 @@ function CoverageRuleList() {
                 })
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
@@ -158,7 +153,6 @@ function CoverageRuleList() {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);

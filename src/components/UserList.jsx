@@ -81,7 +81,6 @@ function UserList() {
         e.preventDefault();
         setError('');
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.name || formData.name.trim().length < 2) {
             setError(t('nameTooShort'));
             return;
@@ -112,7 +111,6 @@ function UserList() {
             return;
         }
 
-        // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         try {
             const response = await fetch(`${API_BASE_URL}/api/users`, {
@@ -121,7 +119,6 @@ function UserList() {
                 body: JSON.stringify({ ...formData, roleId: parseInt(formData.roleId) })
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
@@ -142,7 +139,6 @@ function UserList() {
         e.preventDefault();
         setError('');
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.name || formData.name.trim().length < 2) {
             setError(t('nameTooShort'));
             return;
@@ -168,7 +164,6 @@ function UserList() {
             return;
         }
 
-        // ✅ BACKEND CALL
         const token = localStorage.getItem('token');
         const payload = { ...formData, roleId: parseInt(formData.roleId) };
         if (!formData.password) delete payload.password;
@@ -180,7 +175,6 @@ function UserList() {
                 body: JSON.stringify(payload)
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
@@ -206,7 +200,6 @@ function UserList() {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
@@ -229,7 +222,6 @@ function UserList() {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);

@@ -69,7 +69,6 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
         setError('');
         setLoading(true);
 
-        // ✅ FRONTEND VALIDATION (translated!)
         if (!formData.workerId) {
             setError(t('workerRequired'));
             setLoading(false);
@@ -94,7 +93,6 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
             return;
         }
 
-        // Check end time is after start time
         const start = new Date(formData.scheduledStart);
         const end = new Date(formData.scheduledEnd);
 
@@ -104,7 +102,6 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
             return;
         }
 
-        // ✅ BACKEND CALL
         try {
             const token = localStorage.getItem('token');
 
@@ -123,7 +120,6 @@ function CreateShift({ onShiftCreated, onCancel, reuseData }) {
                 }),
             });
 
-            // ✅ HANDLE BACKEND ERRORS (translated!)
             if (!response.ok) {
                 const errorData = await response.json();
                 const errorKey = getErrorKey(errorData.error);
